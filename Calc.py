@@ -322,6 +322,9 @@ def CampoTrozo(radio1_, radio2_, altura_, distancia_, carga_):
     resultado_numericoTrozo = E_Trozo.evalf()
     """ resultado_numericoTrozo = format(resultado_numericoTrozo, '.1E') """
     
+    if radio2 <= radio1:
+        resultado_numeroTrozo = 0
+    
     return resultado_numericoTrozo
 
 def CampoHemisferio(radio1_, distancia_, carga_):
