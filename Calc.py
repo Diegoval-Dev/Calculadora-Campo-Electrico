@@ -79,7 +79,7 @@ class MyWindow(QMainWindow):
         self.setGeometry(200, 100, 919, 519)
         self.setWindowTitle("Calculadora de campos electromagneticos")
 
-        layout = QHBoxLayout()  # Cambio a QHBoxLayout para organizar elementos horizontalmente
+        layout = QHBoxLayout() 
 
         # Left side layout
         left_layout = QVBoxLayout()
@@ -135,24 +135,28 @@ class MyWindow(QMainWindow):
         self.button_ingresar = QPushButton("Ingresar")
         self.button_ingresar.clicked.connect(self.ingresar_datos)
 
-        left_layout.addWidget(self.button_ingresar)
+        self.button_limpiar = QPushButton("Limpiar")
+        self.button_limpiar.clicked.connect(self.limpiar_datos)
 
-        layout.addLayout(left_layout)  # Agregamos el layout izquierdo al layout principal
+        left_layout.addWidget(self.button_ingresar)
+        left_layout.addWidget(self.button_limpiar)
+
+        layout.addLayout(left_layout)  
 
         # Right side layout
-        self.graphics_view = QGraphicsView()  # Creamos el QGraphicsView
-        self.scene = QGraphicsScene()  # Creamos la escena para el QGraphicsView
-        self.graphics_view.setScene(self.scene)  # Asignamos la escena al QGraphicsView
-        self.graphics_view.setMinimumWidth(300)  # Definimos el ancho mínimo del QGraphicsView
+        self.graphics_view = QGraphicsView()  
+        self.scene = QGraphicsScene()  
+        self.graphics_view.setScene(self.scene)  
+        self.graphics_view.setMinimumWidth(300)  
 
-        layout.addWidget(self.graphics_view)  # Agregamos el QGraphicsView al layout principal
+        layout.addWidget(self.graphics_view) 
 
         central_widget = QWidget()
         central_widget.setLayout(layout)
         self.setCentralWidget(central_widget)
 
         self.label_campo_electrico = QLabel("Campo eléctrico: N/A")
-        self.label_campo_electrico.setAlignment(Qt.AlignCenter)  # Alineación del texto al centro
+        self.label_campo_electrico.setAlignment(Qt.AlignCenter)  
         layout.addWidget(self.label_campo_electrico)
 
         self.radio_cono.toggled.connect(self.toggle_campos_cono)
@@ -162,7 +166,16 @@ class MyWindow(QMainWindow):
         self.draw_axes()
         self.enabledALL() 
         
-    
+    def limpiar_datos(self):
+        self.scene.clear()
+        self.input_altura.clear()
+        self.input_carga.clear()
+        self.input_coordenada_x.clear()
+        self.input_radio1.clear()
+        self.input_radio2.clear()
+        self.label_campo_electrico.setText("Campo Electrico: N/A")
+        self.draw_axes()
+        print("A")
 
     def enabledALL(self):
         self.input_radio1.setEnabled(False)
@@ -250,15 +263,14 @@ class MyWindow(QMainWindow):
         elif self.radio_hemisferio.isChecked():
             figura_seleccionada = "Hemisferio"
             radio1 = self.input_radio1.text()
+            campoElectrico = CampoHemisferio(radio1, coordenada_x, carga)
+            campoFormato = format(campoElectrico, '.1E')
+            nuevoCampo = "Campo electrico: " + str(campoFormato) + " N/C"  # Cambia esto por el nuevo texto que desees
+            self.label_campo_electrico.setText(nuevoCampo)
+            longX = campoElectrico / 100000
+            self.draw_line(int(coordenada_x),longX)
 
         
-
-        print("Figura seleccionada:", figura_seleccionada)
-        print("Radio 1:", radio1)
-        print("Radio 2:", radio2)
-        print("Altura:", altura)
-        print("Carga Eléctrica:", carga)
-        print("Coordenada x:", coordenada_x)
 
 
 #Funciones para calcular
