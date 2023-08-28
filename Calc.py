@@ -312,6 +312,28 @@ def CampoTrozo(radio1_, radio2_, altura_, distancia_, carga_):
     
     return resultado_numericoTrozo
 
+def CampoHemisferio(radio1_, distancia_, carga_):
+    radio = int(radio1_)
+    distancia = int(distancia_)
+    carga = int(carga_)
+
+    x = sp.Symbol('x')
+
+    funcionHemisferio = 1 - (
+        (radio - x + distancia) / (
+            sp.sqrt(
+                ((radio - x + distancia) ** 2) +
+                ((radio**2)-((x-radio)**2))**2
+            )
+        )
+    )
+    
+    integralHemisferio = sp.integrate(funcionHemisferio, (x, 0, radio))
+    E_Hemisferio = ((3 * carga) / (4 * sp.pi * 8.85E-12 * (radio**3))) * integralHemisferio
+
+    resultado_numericoHemisferio = E_Hemisferio.evalf()    
+    return resultado_numericoHemisferio
+
 app = QApplication(sys.argv)
 window = MyWindow()
 window.show()
