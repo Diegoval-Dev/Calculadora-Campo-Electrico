@@ -323,7 +323,7 @@ def CampoHemisferio(radio1_, distancia_, carga_):
         (radio - x + distancia) / (
             sp.sqrt(
                 ((radio - x + distancia) ** 2) +
-                ((radio**2)-((x-radio)**2))**2
+                ((radio**2)-((x-radio)**2))
             )
         )
     )
