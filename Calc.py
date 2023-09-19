@@ -308,13 +308,14 @@ def CampoTrozo(radio1_, radio2_, altura_, distancia_, carga_):
     x = sp.Symbol('x')
     
     funcionTrozo = 1 - (
-        (-altura - x + distancia) / (
-            sp.sqrt(
-                ((altura - x + distancia) ** 2) +
-                ((((radio2-radio1)/altura)*x)+radio1) ** 2
+    (altura - x + distancia) / (
+        sp.sqrt(
+            ((altura - x + distancia) ** 2) +
+            ((((radio1-radio2)/altura)*x)+radio2) ** 2
             )
         )
-    )
+    )   
+
     
     integralTrozo = sp.integrate(funcionTrozo, (x, 0, altura))
     E_Trozo = ((3 * carga) / (2 * sp.pi * 8.85E-12 * ((radio1 ** 2) + (radio2**2) + radio1*radio2) * altura)) * integralTrozo
@@ -323,7 +324,7 @@ def CampoTrozo(radio1_, radio2_, altura_, distancia_, carga_):
     """ resultado_numericoTrozo = format(resultado_numericoTrozo, '.1E') """
     
     if radio2 <= radio1:
-        resultado_numeroTrozo = 0
+        resultado_numericoTrozo = 0
     
     return resultado_numericoTrozo
 
